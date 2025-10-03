@@ -53,6 +53,9 @@ jobs:
           cp cloudflare/_headers excalidraw-app/build/
           cp cloudflare/_redirects excalidraw-app/build/
 
+      - name: Install Wrangler
+        run: npm install -g wrangler@latest
+
       - name: Determine environment
         id: env
         run: |
@@ -66,29 +69,18 @@ jobs:
             echo "environment=preview" >> $GITHUB_OUTPUT
           fi
 
-      - name: Deploy to Cloudflare Pages (Production)
-        if: steps.env.outputs.environment == 'production'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy excalidraw-app/build --project-name=excalidraw --branch=main
-
-      - name: Deploy to Cloudflare Pages (Staging)
-        if: steps.env.outputs.environment == 'staging'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy excalidraw-app/build --project-name=excalidraw-staging --branch=staging
-
-      - name: Deploy to Cloudflare Pages (Preview)
-        if: steps.env.outputs.environment == 'preview'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy excalidraw-app/build --project-name=excalidraw --branch=pr-${{ github.event.pull_request.number }}
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [[ "${{ steps.env.outputs.environment }}" == "production" ]]; then
+            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=main --commit-dirty=true
+          elif [[ "${{ steps.env.outputs.environment }}" == "staging" ]]; then
+            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=staging --commit-dirty=true
+          else
+            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=preview-${{ github.run_id }} --commit-dirty=true
+          fi
 
       - name: Comment PR with preview URL
         if: github.event_name == 'pull_request'
