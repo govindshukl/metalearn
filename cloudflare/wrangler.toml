@@ -1,0 +1,23 @@
+name = "excalidraw"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "../excalidraw-app/build"
+
+[site]
+bucket = "../excalidraw-app/build"
+
+# Production environment
+[env.production]
+name = "excalidraw"
+route = "learn.metaglass.ai"
+
+[env.production.vars]
+VITE_APP_ENV = "production"
+VITE_APP_ENABLE_TRACKING = "true"
+
+# Staging environment
+[env.staging]
+name = "excalidraw-staging"
+
+[env.staging.vars]
+VITE_APP_ENV = "staging"
+VITE_APP_DISABLE_SENTRY = "true"

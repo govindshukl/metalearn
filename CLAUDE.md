@@ -93,11 +93,26 @@ yarn fix:other               # Auto-fix Prettier formatting
 - **Naming**: PascalCase for components/types, camelCase for variables/functions, ALL_CAPS for constants
 - **Conciseness**: Be succinct in responses and code; avoid unnecessary explanations unless asked
 
-## AWS Deployment & Infrastructure
+## Deployment
 
-For AWS deployment and infrastructure management, see **[AWS_DEPLOYMENT_GUIDE.md](AWS_DEPLOYMENT_GUIDE.md)** which documents the custom Claude Code commands available in `.claude/commands/`:
-- `/deploy` - Automated deployment to S3+CloudFront or ECS Fargate
-- `/setup-aws-infra` - CloudFormation infrastructure setup
-- `/containerize` - Docker optimization and ECR integration
-- `/rollback` - Safe deployment rollback
-- `/monitor` - CloudWatch monitoring and observability
+### Cloudflare Pages (Recommended)
+
+For production deployment, Excalidraw uses **Cloudflare Pages** which provides:
+- **Zero cost**: Unlimited bandwidth and requests
+- **Global CDN**: 300+ edge locations worldwide
+- **Instant deploys**: Sub-second deployments
+- **Automatic HTTPS**: Free SSL certificates
+- **Preview deployments**: Automatic preview URLs for PRs
+
+**Quick Start**:
+```bash
+# Deploy to staging
+/deploy-cloudflare staging
+
+# Deploy to production with custom domain
+/deploy-cloudflare production
+```
+
+See **[CLOUDFLARE_DEPLOYMENT_GUIDE.md](CLOUDFLARE_DEPLOYMENT_GUIDE.md)** for complete deployment instructions.
+
+
