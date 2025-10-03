@@ -5,7 +5,7 @@
 
 set -e
 
-PROJECT_NAME="excalidraw"
+PROJECT_NAME="metalearn"
 PR_NUMBER=""
 
 while [[ "$#" -gt 0 ]]; do

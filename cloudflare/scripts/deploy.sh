@@ -6,9 +6,9 @@
 set -e
 
 ENVIRONMENT=${1:-staging}
-PROJECT_NAME="excalidraw"
+PROJECT_NAME="metalearn"
 
-echo "🚀 Deploying Excalidraw to Cloudflare Pages (${ENVIRONMENT})..."
+echo "🚀 Deploying Metalearn to Cloudflare Pages (${ENVIRONMENT})..."
 
 # Navigate to project root
 cd "$(dirname "$0")/../.."

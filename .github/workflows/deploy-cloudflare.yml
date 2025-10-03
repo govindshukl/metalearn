@@ -75,11 +75,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [[ "${{ steps.env.outputs.environment }}" == "production" ]]; then
-            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=main --commit-dirty=true
+            wrangler pages deploy excalidraw-app/build --project-name=metalearn --branch=main --commit-dirty=true
           elif [[ "${{ steps.env.outputs.environment }}" == "staging" ]]; then
-            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=staging --commit-dirty=true
+            wrangler pages deploy excalidraw-app/build --project-name=metalearn --branch=staging --commit-dirty=true
           else
-            wrangler pages deploy excalidraw-app/build --project-name=excalidraw --branch=preview-${{ github.run_id }} --commit-dirty=true
+            wrangler pages deploy excalidraw-app/build --project-name=metalearn --branch=preview-${{ github.run_id }} --commit-dirty=true
           fi
 
       - name: Comment PR with preview URL
@@ -91,11 +91,11 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🚀 Preview deployment ready!\n\nView your changes at: https://excalidraw-c3r.pages.dev'
+              body: '🚀 Preview deployment ready!\n\nView your changes at: https://metalearn.pages.dev'
             })
 
       - name: Verify deployment
         run: |
           echo "✅ Deployment successful!"
-          echo "🌍 Production URL: https://excalidraw-c3r.pages.dev"
-          echo "🌍 Custom domain: https://learn.metaglass.ai (requires DNS configuration)"
+          echo "🌍 Production URL: https://metalearn.pages.dev"
+          echo "🌍 Custom domain: https://learn.metaglass.ai"

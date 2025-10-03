@@ -6,7 +6,7 @@
 set -e
 
 ENVIRONMENT=${1:-staging}
-PROJECT_NAME="excalidraw"
+PROJECT_NAME="metalearn"
 
 echo "⏪ Rolling back Cloudflare Pages deployment (${ENVIRONMENT})..."
 
