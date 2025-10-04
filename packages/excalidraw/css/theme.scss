@@ -19,7 +19,7 @@
   --input-border-color: #{$oc-gray-4};
   --input-hover-bg-color: #{$oc-gray-1};
   --input-label-color: #{$oc-gray-7};
-  --island-bg-color: #ffffff;
+  --island-bg-color: rgba(255, 255, 255, 0.65);
   --keybinding-color: var(--color-gray-40);
   --link-color: #{$oc-blue-7};
   --overlay-bg-color: #{transparentize($oc-white, 0.12)};
@@ -187,7 +187,7 @@
     --input-border-color: #2e2e2e;
     --input-hover-bg-color: #181818;
     --input-label-color: #{$oc-gray-2};
-    --island-bg-color: #232329;
+    --island-bg-color: rgba(35, 35, 41, 0.75);
     --keybinding-color: var(--color-gray-60);
     --link-color: #{$oc-blue-4};
     --overlay-bg-color: #{transparentize($oc-gray-8, 0.88)};
