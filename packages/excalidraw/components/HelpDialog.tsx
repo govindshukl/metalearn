@@ -17,24 +17,28 @@ import type { JSX } from "react";
 
 const Header = () => (
   <div className="HelpDialog__header">
+    {/* Documentation link - update with your own documentation URL
     <a
       className="HelpDialog__btn"
-      href="https://docs.excalidraw.com"
+      href="https://docs.metalearn.com"
       target="_blank"
       rel="noopener"
     >
       <div className="HelpDialog__link-icon">{ExternalLinkIcon}</div>
       {t("helpDialog.documentation")}
     </a>
+    */}
+    {/* Blog link - update with your own blog URL
     <a
       className="HelpDialog__btn"
-      href="https://plus.excalidraw.com/blog"
+      href="https://blog.metalearn.com"
       target="_blank"
       rel="noopener"
     >
       <div className="HelpDialog__link-icon">{ExternalLinkIcon}</div>
       {t("helpDialog.blog")}
     </a>
+    */}
     <a
       className="HelpDialog__btn"
       href="https://github.com/excalidraw/excalidraw/issues"
