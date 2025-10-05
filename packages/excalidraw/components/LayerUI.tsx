@@ -321,20 +321,21 @@ const LayerUI = ({
                       <tunnels.WelcomeScreenToolbarHintTunnel.Out />
                     )}
                     <Stack.Col gap={spacing.toolbarColGap} align="start">
-                      <Stack.Row
-                        gap={spacing.toolbarRowGap}
-                        className={clsx("App-toolbar-container", {
-                          "zen-mode": appState.zenModeEnabled,
-                        })}
-                      >
-                        <Island
-                          padding={spacing.islandPadding}
-                          className={clsx("App-toolbar", {
+                      {!appState.isLearnMode && (
+                        <Stack.Row
+                          gap={spacing.toolbarRowGap}
+                          className={clsx("App-toolbar-container", {
                             "zen-mode": appState.zenModeEnabled,
-                            "App-toolbar--compact":
-                              appState.stylesPanelMode === "compact",
                           })}
                         >
+                          <Island
+                            padding={spacing.islandPadding}
+                            className={clsx("App-toolbar", {
+                              "zen-mode": appState.zenModeEnabled,
+                              "App-toolbar--compact":
+                                appState.stylesPanelMode === "compact",
+                            })}
+                          >
                           <HintViewer
                             appState={appState}
                             isMobile={device.editor.isMobile}
@@ -394,6 +395,7 @@ const LayerUI = ({
                           </Island>
                         )}
                       </Stack.Row>
+                      )}
                     </Stack.Col>
                   </div>
                 )}

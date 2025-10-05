@@ -35,3 +35,6 @@ export const useAtomWithInitialValue = <
 
   return [value, setValue] as const;
 };
+
+// Course menu toggle state
+export const isCourseMenuOpenAtom = atom(false);

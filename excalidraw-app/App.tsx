@@ -95,6 +95,9 @@ import Collab, {
 import { AppFooter } from "./components/AppFooter";
 import { AppMainMenu } from "./components/AppMainMenu";
 import { AppWelcomeScreen } from "./components/AppWelcomeScreen";
+import { ModeToggle } from "./components/LearnMode/ModeToggle";
+import { CourseMenu } from "./components/LearnMode/CourseMenu";
+import { LearnModeBanner } from "./components/LearnMode/LearnModeBanner";
 import {
   ExportToExcalidrawPlus,
   exportToExcalidrawPlus,
@@ -337,6 +340,12 @@ const ExcalidrawWrapper = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const isCollabDisabled = isRunningInIframe();
 
+  // Learn Mode state - persisted in localStorage
+  const [isLearnMode, setIsLearnMode] = useState<boolean>(() => {
+    const savedMode = localStorage.getItem("metalearn-mode");
+    return savedMode === "learn";
+  });
+
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
 
   const [langCode, setLangCode] = useAppLangCode();
@@ -470,7 +479,13 @@ const ExcalidrawWrapper = () => {
 
     initializeScene({ collabAPI, excalidrawAPI }).then(async (data) => {
       loadImages(data, /* isInitialLoad */ true);
-      initialStatePromiseRef.current.promise.resolve(data.scene);
+      initialStatePromiseRef.current.promise.resolve({
+        ...data.scene,
+        appState: {
+          ...data.scene?.appState,
+          isLearnMode,
+        },
+      });
     });
 
     const onHashChange = async (event: HashChangeEvent) => {
@@ -795,6 +810,7 @@ const ExcalidrawWrapper = () => {
       style={{ height: "100%" }}
       className={clsx("excalidraw-app", {
         "is-collaborating": isCollaborating,
+        "learn-mode": isLearnMode,
       })}
     >
       <Excalidraw
@@ -806,6 +822,9 @@ const ExcalidrawWrapper = () => {
         UIOptions={{
           canvasActions: {
             toggleTheme: true,
+            clearCanvas: !isLearnMode,
+            loadScene: !isLearnMode,
+            saveToActiveFile: !isLearnMode,
             export: {
               onExportToBackend,
               renderCustomUI: excalidrawAPI
@@ -834,6 +853,9 @@ const ExcalidrawWrapper = () => {
                 : undefined,
             },
           },
+          tools: {
+            image: !isLearnMode,
+          },
         }}
         langCode={langCode}
         renderCustomStats={renderCustomStats}
@@ -841,19 +863,36 @@ const ExcalidrawWrapper = () => {
         handleKeyboardGlobally={true}
         autoFocus={true}
         theme={editorTheme}
+        viewModeEnabled={isLearnMode}
+        zenModeEnabled={false}
+        gridModeEnabled={!isLearnMode}
         renderTopRightUI={(isMobile) => {
-          if (isMobile || !collabAPI || isCollabDisabled) {
+          if (isMobile) {
             return null;
           }
           return (
             <div className="top-right-ui">
-              {collabError.message && <CollabError collabError={collabError} />}
-              <LiveCollaborationTrigger
-                isCollaborating={isCollaborating}
-                onSelect={() =>
-                  setShareDialogState({ isOpen: true, type: "share" })
-                }
+              {!isCollabDisabled && collabError.message && (
+                <CollabError collabError={collabError} />
+              )}
+              <ModeToggle
+                isLearnMode={isLearnMode}
+                onToggle={(newMode) => {
+                  setIsLearnMode(newMode);
+                  // Update appState if needed
+                  excalidrawAPI?.updateScene({
+                    appState: { isLearnMode: newMode },
+                  });
+                }}
               />
+              {!isCollabDisabled && collabAPI && (
+                <LiveCollaborationTrigger
+                  isCollaborating={isCollaborating}
+                  onSelect={() =>
+                    setShareDialogState({ isOpen: true, type: "share" })
+                  }
+                />
+              )}
             </div>
           );
         }}
@@ -1136,6 +1175,15 @@ const ExcalidrawWrapper = () => {
           />
         )}
       </Excalidraw>
+      {isLearnMode && (
+        <>
+          <LearnModeBanner
+            currentCourse="Introduction to Algorithms"
+            currentChapter="Chapter 1: Sorting"
+          />
+          <CourseMenu />
+        </>
+      )}
     </div>
   );
 };

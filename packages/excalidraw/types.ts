@@ -449,6 +449,8 @@ export interface AppState {
 
   /** properties sidebar mode - determines whether to show compact or complete sidebar */
   stylesPanelMode: "compact" | "full";
+  /** whether Learn Mode is active */
+  isLearnMode: boolean;
 }
 
 export type SearchMatch = {
