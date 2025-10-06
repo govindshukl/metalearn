@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import {
   CANVAS_SEARCH_TAB,
+  COURSES_SIDEBAR_TAB,
   DEFAULT_SIDEBAR,
   LIBRARY_SIDEBAR_TAB,
   composeEventHandlers,
@@ -15,11 +16,12 @@ import { useUIAppState } from "../context/ui-appState";
 import "../components/dropdownMenu/DropdownMenu.scss";
 
 import { useExcalidrawSetAppState } from "./App";
+import { CoursesMenu } from "./CoursesMenu";
 import { LibraryMenu } from "./LibraryMenu";
 import { SearchMenu } from "./SearchMenu";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { withInternalFallback } from "./hoc/withInternalFallback";
-import { LibraryIcon, searchIcon } from "./icons";
+import { CoursesIcon, LibraryIcon, searchIcon } from "./icons";
 
 import type { SidebarProps, SidebarTriggerProps } from "./Sidebar/common";
 
@@ -74,6 +76,11 @@ export const DefaultSidebar = Object.assign(
 
       const { DefaultSidebarTabTriggersTunnel } = useTunnels();
 
+      // Debug logging
+      console.log("[DefaultSidebar] Rendering with isLearnMode:", appState.isLearnMode);
+      console.log("[DefaultSidebar] Will render Library?", !appState.isLearnMode);
+      console.log("[DefaultSidebar] Will render Courses?", appState.isLearnMode);
+
       const isForceDocked = appState.openSidebar?.tab === CANVAS_SEARCH_TAB;
 
       return (
@@ -105,6 +112,9 @@ export const DefaultSidebar = Object.assign(
                 <Sidebar.TabTrigger tab={LIBRARY_SIDEBAR_TAB}>
                   {LibraryIcon}
                 </Sidebar.TabTrigger>
+                <Sidebar.TabTrigger tab={COURSES_SIDEBAR_TAB}>
+                  {CoursesIcon}
+                </Sidebar.TabTrigger>
                 <DefaultSidebarTabTriggersTunnel.Out />
               </Sidebar.TabTriggers>
             </Sidebar.Header>
@@ -113,6 +123,9 @@ export const DefaultSidebar = Object.assign(
             </Sidebar.Tab>
             <Sidebar.Tab tab={CANVAS_SEARCH_TAB}>
               <SearchMenu />
+            </Sidebar.Tab>
+            <Sidebar.Tab tab={COURSES_SIDEBAR_TAB}>
+              <CoursesMenu />
             </Sidebar.Tab>
             {children}
           </Sidebar.Tabs>

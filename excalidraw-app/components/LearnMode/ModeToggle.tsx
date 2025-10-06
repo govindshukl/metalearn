@@ -13,8 +13,7 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({
   const handleToggle = () => {
     const newMode = !isLearnMode;
     onToggle(newMode);
-    // Persist to localStorage
-    localStorage.setItem("metalearn-mode", newMode ? "learn" : "design");
+    // Note: localStorage persistence is handled by Excalidraw's appState
   };
 
   return (

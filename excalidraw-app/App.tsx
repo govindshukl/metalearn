@@ -29,6 +29,8 @@ import {
   resolvablePromise,
   isRunningInIframe,
   isDevEnv,
+  LIBRARY_SIDEBAR_TAB,
+  COURSES_SIDEBAR_TAB,
 } from "@excalidraw/common";
 import polyfill from "@excalidraw/excalidraw/polyfill";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -79,7 +81,9 @@ import {
   useAtom,
   useAtomValue,
   useAtomWithInitialValue,
+  useSetAtom,
   appJotaiStore,
+  isCourseMenuOpenAtom,
 } from "./app-jotai";
 import {
   FIREBASE_STORAGE_PREFIXES,
@@ -340,11 +344,25 @@ const ExcalidrawWrapper = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const isCollabDisabled = isRunningInIframe();
 
-  // Learn Mode state - persisted in localStorage
+  // Learn Mode state - will be synced with Excalidraw's appState
+  // Read from Excalidraw's localStorage on init (it persists isLearnMode automatically)
   const [isLearnMode, setIsLearnMode] = useState<boolean>(() => {
-    const savedMode = localStorage.getItem("metalearn-mode");
-    return savedMode === "learn";
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEYS.LOCAL_STORAGE_APP_STATE);
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        const mode = parsed.isLearnMode || false;
+        console.log("[LearnMode] Initial state from localStorage:", mode);
+        return mode;
+      }
+    } catch (error) {
+      console.error("Error reading isLearnMode from localStorage:", error);
+    }
+    console.log("[LearnMode] No localStorage, defaulting to false");
+    return false;
   });
+
+  const setIsCourseMenuOpen = useSetAtom(isCourseMenuOpenAtom);
 
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
 
@@ -636,6 +654,12 @@ const ExcalidrawWrapper = () => {
     appState: AppState,
     files: BinaryFiles,
   ) => {
+    // Sync local Learn Mode state with Excalidraw's appState
+    if (appState.isLearnMode !== isLearnMode) {
+      console.log("[LearnMode] Syncing state:", appState.isLearnMode, "was:", isLearnMode);
+      setIsLearnMode(appState.isLearnMode);
+    }
+
     if (collabAPI?.isCollaborating()) {
       collabAPI.syncElements(elements);
     }
@@ -875,16 +899,6 @@ const ExcalidrawWrapper = () => {
               {!isCollabDisabled && collabError.message && (
                 <CollabError collabError={collabError} />
               )}
-              <ModeToggle
-                isLearnMode={isLearnMode}
-                onToggle={(newMode) => {
-                  setIsLearnMode(newMode);
-                  // Update appState if needed
-                  excalidrawAPI?.updateScene({
-                    appState: { isLearnMode: newMode },
-                  });
-                }}
-              />
               {!isCollabDisabled && collabAPI && (
                 <LiveCollaborationTrigger
                   isCollaborating={isCollaborating}
@@ -893,6 +907,72 @@ const ExcalidrawWrapper = () => {
                   }
                 />
               )}
+              <ModeToggle
+                isLearnMode={isLearnMode}
+                onToggle={(newMode) => {
+                  console.log("[LearnMode] Toggle clicked, new mode:", newMode);
+
+                  // Get current sidebar state
+                  const currentAppState = excalidrawAPI?.getAppState();
+                  const currentSidebarTab = currentAppState?.openSidebar?.tab;
+                  const isSidebarOpen = !!currentAppState?.openSidebar;
+                  console.log("[LearnMode] Sidebar open:", isSidebarOpen, "Current tab:", currentSidebarTab);
+
+                  // Determine new sidebar state based on mode change
+                  // Since Courses is now available in both modes, we don't need to switch tabs
+                  // unless Library tab is active and we're switching to Learn mode
+                  let newOpenSidebar = currentAppState?.openSidebar ?? null;
+
+                  if (isSidebarOpen && currentSidebarTab) {
+                    if (newMode) {
+                      // Switching to Learn mode: if sidebar shows library tab, switch to courses
+                      // (because Library won't be available in Learn mode)
+                      if (currentSidebarTab === LIBRARY_SIDEBAR_TAB) {
+                        newOpenSidebar = { name: "default", tab: COURSES_SIDEBAR_TAB };
+                        console.log("[LearnMode] Sidebar open on library tab, switching to courses");
+                      }
+                      // Courses tab remains visible in Learn mode, no change needed
+                    } else {
+                      // Switching to Design mode: Courses tab stays visible, no need to switch
+                      // (because Courses is now available in both modes)
+                      console.log("[LearnMode] Switching to Design mode, keeping current tab");
+                    }
+                  }
+
+                  console.log("[LearnMode] New sidebar state:", newOpenSidebar);
+
+                  // Update Excalidraw's internal state (will be auto-persisted to localStorage)
+                  // The onChange handler will sync back to React state via lines 658-661
+                  excalidrawAPI?.updateScene({
+                    appState: {
+                      isLearnMode: newMode,
+                      openSidebar: newOpenSidebar,
+                    },
+                  });
+                }}
+              />
+              <div className="default-sidebar-trigger">
+                <button
+                  className="sidebar-trigger"
+                  onClick={() => {
+                    const currentAppState = excalidrawAPI?.getAppState();
+                    const isOpen = currentAppState?.openSidebar?.name === "default" &&
+                                   currentAppState?.openSidebar?.tab === COURSES_SIDEBAR_TAB;
+
+                    excalidrawAPI?.updateScene({
+                      appState: {
+                        openSidebar: isOpen
+                          ? null
+                          : { name: "default", tab: COURSES_SIDEBAR_TAB }
+                      },
+                    });
+                  }}
+                  title="Browse Courses"
+                  aria-label="Browse Courses"
+                >
+                  <span className="sidebar-trigger__label">Courses</span>
+                </button>
+              </div>
             </div>
           );
         }}
@@ -1176,13 +1256,10 @@ const ExcalidrawWrapper = () => {
         )}
       </Excalidraw>
       {isLearnMode && (
-        <>
-          <LearnModeBanner
-            currentCourse="Introduction to Algorithms"
-            currentChapter="Chapter 1: Sorting"
-          />
-          <CourseMenu />
-        </>
+        <LearnModeBanner
+          currentCourse="Introduction to Algorithms"
+          currentChapter="Chapter 1: Sorting"
+        />
       )}
     </div>
   );

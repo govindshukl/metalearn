@@ -3,6 +3,7 @@ import React from "react";
 
 import {
   CLASSES,
+  COURSES_SIDEBAR_TAB,
   DEFAULT_SIDEBAR,
   MQ_MIN_WIDTH_DESKTOP,
   TOOL_TYPE,
@@ -48,7 +49,7 @@ import MainMenu from "./main-menu/MainMenu";
 import { ActiveConfirmDialog } from "./ActiveConfirmDialog";
 import { useDevice } from "./App";
 import { OverwriteConfirmDialog } from "./OverwriteConfirm/OverwriteConfirm";
-import { LibraryIcon } from "./icons";
+import { CoursesIcon, LibraryIcon } from "./icons";
 import { DefaultSidebar } from "./DefaultSidebar";
 import { TTDDialog } from "./TTDDialog/TTDDialog";
 import { Stats } from "./Stats";
@@ -485,6 +486,25 @@ const LayerUI = ({
         {appState.stylesPanelMode === "full" &&
           appState.width >= MQ_MIN_WIDTH_DESKTOP &&
           t("toolBar.library")}
+      </DefaultSidebar.Trigger>
+      <DefaultSidebar.Trigger
+        __fallback
+        icon={CoursesIcon}
+        title={capitalizeString(t("toolBar.courses"))}
+        onToggle={(open) => {
+          if (open) {
+            trackEvent(
+              "sidebar",
+              `${DEFAULT_SIDEBAR.name} (open)`,
+              `button (${device.editor.isMobile ? "mobile" : "desktop"})`,
+            );
+          }
+        }}
+        tab={COURSES_SIDEBAR_TAB}
+      >
+        {appState.stylesPanelMode === "full" &&
+          appState.width >= MQ_MIN_WIDTH_DESKTOP &&
+          t("toolBar.courses")}
       </DefaultSidebar.Trigger>
       <DefaultOverwriteConfirmDialog />
       {appState.openDialog?.name === "ttd" && <TTDDialog __fallback />}

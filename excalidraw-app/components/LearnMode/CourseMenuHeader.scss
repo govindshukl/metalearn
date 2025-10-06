@@ -1,0 +1,114 @@
+.course-menu-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.course-menu-header__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.course-menu-header__back {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.course-menu-header__title {
+  flex: 1;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-menu-header__close {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.course-menu-header__search {
+  position: relative;
+}
+
+.course-menu-header__search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  color: var(--color-text);
+  transition: all 0.2s;
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: rgb(99, 102, 241);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+}
+
+[data-theme="dark"] {
+  .course-menu-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    background: rgba(40, 40, 40, 0.5);
+  }
+
+  .course-menu-header__back:hover,
+  .course-menu-header__close:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .course-menu-header__search-input {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(40, 40, 40, 0.8);
+
+    &:focus {
+      background: rgba(40, 40, 40, 1);
+    }
+  }
+}
