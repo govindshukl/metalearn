@@ -5,6 +5,8 @@ export const sampleCourse: Course = {
   title: "Introduction to Algorithms",
   description: "Learn fundamental algorithms through visual explanations",
   thumbnail: "/courses/thumbnails/algorithms.png",
+  level: "beginner",
+  totalDuration: 45,
   metadata: {
     author: "Metalearn Team",
     createdAt: "2025-01-15",

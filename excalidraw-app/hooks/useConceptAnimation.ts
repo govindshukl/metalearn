@@ -5,7 +5,7 @@ import {
   extractElements,
 } from "../data/excalidrawLoader";
 import { useAnimationEngine } from "./useAnimationEngine";
-import type { Concept } from "../data/courses/sampleCourse";
+import type { Concept } from "../data/courses/types";
 
 export const useConceptAnimation = (
   selectedConcept: Concept | null,

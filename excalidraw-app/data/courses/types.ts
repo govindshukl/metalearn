@@ -172,6 +172,12 @@ export interface Course {
 
   /** Optional prerequisites */
   prerequisites?: string[];
+
+  /** Difficulty level (convenience accessor) */
+  level?: "beginner" | "intermediate" | "advanced";
+
+  /** Total duration in minutes (convenience accessor) */
+  totalDuration?: number;
 }
 
 /**
