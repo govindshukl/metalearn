@@ -83,16 +83,7 @@
 }
 
 .excalidraw-app.learn-mode {
-  background: linear-gradient(
-    135deg,
-    rgba(99, 102, 241, 0.05) 0%,
-    rgba(168, 85, 247, 0.05) 100%
-  );
-
-  .excalidraw {
-    border: 2px solid rgba(99, 102, 241, 0.3);
-    border-radius: 12px;
-  }
+  // Learn mode styling removed to match design mode
 }
 
 .plus-button {

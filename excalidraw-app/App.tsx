@@ -84,6 +84,7 @@ import {
   useSetAtom,
   appJotaiStore,
   isCourseMenuOpenAtom,
+  selectedConceptAtom,
 } from "./app-jotai";
 import {
   FIREBASE_STORAGE_PREFIXES,
@@ -102,6 +103,7 @@ import { AppWelcomeScreen } from "./components/AppWelcomeScreen";
 import { ModeToggle } from "./components/LearnMode/ModeToggle";
 import { CourseMenu } from "./components/LearnMode/CourseMenu";
 import { LearnModeBanner } from "./components/LearnMode/LearnModeBanner";
+import { ConceptPlayer } from "./components/LearnMode/ConceptPlayer";
 import {
   ExportToExcalidrawPlus,
   exportToExcalidrawPlus,
@@ -363,6 +365,9 @@ const ExcalidrawWrapper = () => {
   });
 
   const setIsCourseMenuOpen = useSetAtom(isCourseMenuOpenAtom);
+  const [selectedConcept] = useAtom(selectedConceptAtom);
+
+  console.log("App.tsx render - selectedConcept:", selectedConcept);
 
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
 
@@ -1256,10 +1261,14 @@ const ExcalidrawWrapper = () => {
         )}
       </Excalidraw>
       {isLearnMode && (
-        <LearnModeBanner
-          currentCourse="Introduction to Algorithms"
-          currentChapter="Chapter 1: Sorting"
-        />
+        <>
+          <LearnModeBanner
+            currentCourse="Introduction to Algorithms"
+            currentChapter="Chapter 1: Sorting"
+          />
+          <CourseMenu />
+          {selectedConcept && <ConceptPlayer excalidrawAPI={excalidrawAPI} />}
+        </>
       )}
     </div>
   );

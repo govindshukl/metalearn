@@ -75,6 +75,7 @@
   }
 }
 
+.courses-menu-loading,
 .courses-menu-placeholder {
   text-align: center;
   padding: 2rem 1rem;
@@ -87,8 +88,248 @@
   }
 }
 
+.courses-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.course-card {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-gray-30);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--color-surface-secondary);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  p {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .course-metadata {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      background: var(--color-gray-10);
+      border-radius: var(--border-radius-sm);
+    }
+
+    .course-difficulty {
+      text-transform: capitalize;
+    }
+  }
+}
+
+// Expandable course card styles
+.course-card-expandable {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-gray-30);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.course-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem;
+  cursor: pointer;
+  gap: 0.75rem;
+
+  &:hover {
+    background: var(--color-surface-secondary);
+  }
+
+  .course-card-info {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    p {
+      margin: 0 0 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .course-metadata {
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+      }
+
+      .course-difficulty {
+        background: var(--color-primary-light);
+        color: var(--color-primary);
+        text-transform: capitalize;
+      }
+
+      .course-time {
+        background: var(--color-gray-10);
+        color: var(--color-text-secondary);
+      }
+    }
+  }
+
+  .expand-icon {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    transition: transform 0.2s;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.course-chapters {
+  border-top: 1px solid var(--color-gray-20);
+  padding: 0.75rem 1rem;
+}
+
+.chapter-expandable {
+  margin-bottom: 0.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-gray-10);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--color-gray-20);
+  }
+
+  .chapter-icon {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    transition: transform 0.2s;
+  }
+
+  &.expanded .chapter-icon {
+    transform: rotate(90deg);
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    flex: 1;
+  }
+}
+
+.chapter-concepts {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.concept-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--color-primary-light);
+  }
+
+  .concept-bullet {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  .concept-title {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .concept-duration {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    padding: 0.125rem 0.375rem;
+    background: var(--color-gray-10);
+    border-radius: var(--border-radius-sm);
+  }
+}
+
 [data-theme="dark"] {
   .courses-menu-header {
     border-bottom-color: var(--color-gray-70);
+  }
+
+  .course-card {
+    background: var(--color-surface-primary-dark);
+    border-color: var(--color-gray-70);
+
+    &:hover {
+      background: var(--color-surface-secondary-dark);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .course-metadata span {
+      background: var(--color-gray-80);
+    }
   }
 }

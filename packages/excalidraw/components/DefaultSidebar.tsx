@@ -76,11 +76,6 @@ export const DefaultSidebar = Object.assign(
 
       const { DefaultSidebarTabTriggersTunnel } = useTunnels();
 
-      // Debug logging
-      console.log("[DefaultSidebar] Rendering with isLearnMode:", appState.isLearnMode);
-      console.log("[DefaultSidebar] Will render Library?", !appState.isLearnMode);
-      console.log("[DefaultSidebar] Will render Courses?", appState.isLearnMode);
-
       const isForceDocked = appState.openSidebar?.tab === CANVAS_SEARCH_TAB;
 
       return (

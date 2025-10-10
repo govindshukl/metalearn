@@ -55,7 +55,7 @@ export const validateCourse = (course: Course): boolean => {
   }
 
   for (const chapter of course.chapters) {
-    if (!chapter.id || !chapter.concepts || chapter.concepts.length === 0) {
+    if (!chapter.id || !chapter.concepts) {
       return false;
     }
 

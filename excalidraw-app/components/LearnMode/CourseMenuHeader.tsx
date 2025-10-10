@@ -3,39 +3,28 @@ import "./CourseMenuHeader.scss";
 
 interface CourseMenuHeaderProps {
   title: string;
+  breadcrumb?: string;
   onClose: () => void;
-  onBack?: () => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }
 
 export const CourseMenuHeader: React.FC<CourseMenuHeaderProps> = ({
   title,
+  breadcrumb,
   onClose,
-  onBack,
   searchQuery,
   onSearchChange,
 }) => {
   return (
     <div className="course-menu-header">
       <div className="course-menu-header__top">
-        {onBack && (
-          <button
-            className="course-menu-header__back"
-            onClick={onBack}
-            aria-label="Go back"
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20">
-              <path
-                d="M12 4l-8 6 8 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-              />
-            </svg>
-          </button>
-        )}
-        <h2 className="course-menu-header__title">{title}</h2>
+        <div className="course-menu-header__title-container">
+          {breadcrumb && (
+            <div className="course-menu-header__breadcrumb">{breadcrumb}</div>
+          )}
+          <h2 className="course-menu-header__title">{title}</h2>
+        </div>
         <button
           className="course-menu-header__close"
           onClick={onClose}
