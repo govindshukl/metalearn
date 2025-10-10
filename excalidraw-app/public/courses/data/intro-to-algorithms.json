@@ -1,0 +1,103 @@
+{
+  "id": "intro-to-algorithms",
+  "title": "Introduction to Algorithms",
+  "description": "Learn fundamental algorithms through visual explanations",
+  "thumbnail": "/courses/thumbnails/algorithms.png",
+  "metadata": {
+    "author": "Metalearn Team",
+    "createdAt": "2025-01-15",
+    "updatedAt": "2025-01-15",
+    "estimatedTime": 45,
+    "difficulty": "beginner",
+    "tags": ["algorithms", "computer-science", "fundamentals"],
+    "version": "1.0.0"
+  },
+  "chapters": [
+    {
+      "id": "ch1-sorting",
+      "title": "Chapter 1: Sorting Algorithms",
+      "description": "Understanding basic sorting algorithms",
+      "order": 1,
+      "thumbnail": "/courses/thumbnails/sorting.png",
+      "concepts": [
+        {
+          "id": "bubble-sort",
+          "title": "Bubble Sort",
+          "description": "Learn how bubble sort works step by step",
+          "excalidrawFile": "/courses/data/bubble-sort.excalidraw",
+          "duration": 120,
+          "animationScript": {
+            "version": "1.0",
+            "totalDuration": 120,
+            "steps": [
+              {
+                "id": "step1",
+                "elementIds": ["rect1", "rect2", "rect3", "rect4"],
+                "startTime": 0,
+                "duration": 2,
+                "type": "fade-in",
+                "easing": "ease-in-out"
+              },
+              {
+                "id": "step2",
+                "elementIds": ["rect1", "rect2"],
+                "startTime": 3,
+                "duration": 1,
+                "type": "scale",
+                "easing": "ease-in-out",
+                "properties": {
+                  "from": { "scale": 1 },
+                  "to": { "scale": 1.2 }
+                }
+              },
+              {
+                "id": "step3",
+                "elementIds": ["rect1", "rect2"],
+                "startTime": 5,
+                "duration": 2,
+                "type": "slide",
+                "easing": "ease-in-out",
+                "properties": {
+                  "from": { "x": 0, "y": 0 },
+                  "to": { "x": 50, "y": 0 }
+                }
+              }
+            ]
+          },
+          "narrative": [
+            {
+              "id": "narr1",
+              "startTime": 0,
+              "endTime": 4,
+              "text": "Bubble sort compares adjacent elements and swaps them if they're in the wrong order.",
+              "position": "bottom"
+            },
+            {
+              "id": "narr2",
+              "startTime": 4,
+              "endTime": 8,
+              "text": "Let's start by comparing the first two elements: 5 and 2.",
+              "position": "bottom"
+            },
+            {
+              "id": "narr3",
+              "startTime": 8,
+              "endTime": 12,
+              "text": "Since 5 > 2, we swap them. This process repeats until the array is sorted.",
+              "position": "bottom"
+            }
+          ],
+          "tags": ["sorting", "comparison-based"]
+        }
+      ]
+    },
+    {
+      "id": "ch2-searching",
+      "title": "Chapter 2: Searching Algorithms",
+      "description": "Learn efficient ways to find elements (Coming Soon)",
+      "order": 2,
+      "concepts": []
+    }
+  ],
+  "prerequisites": []
+}

@@ -1,0 +1,132 @@
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+  position: relative;
+  width: 100%;
+
+  &__play-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__time {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    min-width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+
+  &__progress {
+    flex: 1;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 8px;
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+
+    .playback-controls__progress:hover & {
+      height: 4px;
+      background: rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &__progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+  }
+
+  &__progress-handle {
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--color-primary);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    .playback-controls__progress:hover & {
+      opacity: 1;
+    }
+  }
+
+  &__speed {
+    flex-shrink: 0;
+  }
+
+  &__speed-select {
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--color-on-surface);
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+  }
+}
